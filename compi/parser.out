@@ -1,0 +1,265 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    INDEX
+    ON
+
+Grammar
+
+Rule 0     S' -> database
+Rule 1     database -> table_def
+Rule 2     database -> table_def database
+Rule 3     table_def -> TABLE IDENTIFIER COLON column_defs
+Rule 4     column_defs -> column_def
+Rule 5     column_defs -> column_def column_defs
+Rule 6     column_def -> DASH IDENTIFIER LPAREN properties RPAREN
+Rule 7     properties -> PROPERTY
+Rule 8     properties -> PROPERTY COMMA properties
+Rule 9     properties -> PRIMARY
+Rule 10    properties -> UNIQUE
+Rule 11    properties -> REFERENCE IDENTIFIER DOT IDENTIFIER
+
+Terminals, with rules where they appear
+
+COLON                : 3
+COMMA                : 8
+DASH                 : 6
+DOT                  : 11
+IDENTIFIER           : 3 6 11 11
+INDEX                : 
+LPAREN               : 6
+ON                   : 
+PRIMARY              : 9
+PROPERTY             : 7 8
+REFERENCE            : 11
+RPAREN               : 6
+TABLE                : 3
+UNIQUE               : 10
+error                : 
+
+Nonterminals, with rules where they appear
+
+column_def           : 4 5
+column_defs          : 3 5
+database             : 2 0
+properties           : 6 8
+table_def            : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . database
+    (1) database -> . table_def
+    (2) database -> . table_def database
+    (3) table_def -> . TABLE IDENTIFIER COLON column_defs
+
+    TABLE           shift and go to state 3
+
+    database                       shift and go to state 1
+    table_def                      shift and go to state 2
+
+state 1
+
+    (0) S' -> database .
+
+
+
+state 2
+
+    (1) database -> table_def .
+    (2) database -> table_def . database
+    (1) database -> . table_def
+    (2) database -> . table_def database
+    (3) table_def -> . TABLE IDENTIFIER COLON column_defs
+
+    $end            reduce using rule 1 (database -> table_def .)
+    TABLE           shift and go to state 3
+
+    table_def                      shift and go to state 2
+    database                       shift and go to state 4
+
+state 3
+
+    (3) table_def -> TABLE . IDENTIFIER COLON column_defs
+
+    IDENTIFIER      shift and go to state 5
+
+
+state 4
+
+    (2) database -> table_def database .
+
+    $end            reduce using rule 2 (database -> table_def database .)
+
+
+state 5
+
+    (3) table_def -> TABLE IDENTIFIER . COLON column_defs
+
+    COLON           shift and go to state 6
+
+
+state 6
+
+    (3) table_def -> TABLE IDENTIFIER COLON . column_defs
+    (4) column_defs -> . column_def
+    (5) column_defs -> . column_def column_defs
+    (6) column_def -> . DASH IDENTIFIER LPAREN properties RPAREN
+
+    DASH            shift and go to state 9
+
+    column_defs                    shift and go to state 7
+    column_def                     shift and go to state 8
+
+state 7
+
+    (3) table_def -> TABLE IDENTIFIER COLON column_defs .
+
+    TABLE           reduce using rule 3 (table_def -> TABLE IDENTIFIER COLON column_defs .)
+    $end            reduce using rule 3 (table_def -> TABLE IDENTIFIER COLON column_defs .)
+
+
+state 8
+
+    (4) column_defs -> column_def .
+    (5) column_defs -> column_def . column_defs
+    (4) column_defs -> . column_def
+    (5) column_defs -> . column_def column_defs
+    (6) column_def -> . DASH IDENTIFIER LPAREN properties RPAREN
+
+    TABLE           reduce using rule 4 (column_defs -> column_def .)
+    $end            reduce using rule 4 (column_defs -> column_def .)
+    DASH            shift and go to state 9
+
+    column_def                     shift and go to state 8
+    column_defs                    shift and go to state 10
+
+state 9
+
+    (6) column_def -> DASH . IDENTIFIER LPAREN properties RPAREN
+
+    IDENTIFIER      shift and go to state 11
+
+
+state 10
+
+    (5) column_defs -> column_def column_defs .
+
+    TABLE           reduce using rule 5 (column_defs -> column_def column_defs .)
+    $end            reduce using rule 5 (column_defs -> column_def column_defs .)
+
+
+state 11
+
+    (6) column_def -> DASH IDENTIFIER . LPAREN properties RPAREN
+
+    LPAREN          shift and go to state 12
+
+
+state 12
+
+    (6) column_def -> DASH IDENTIFIER LPAREN . properties RPAREN
+    (7) properties -> . PROPERTY
+    (8) properties -> . PROPERTY COMMA properties
+    (9) properties -> . PRIMARY
+    (10) properties -> . UNIQUE
+    (11) properties -> . REFERENCE IDENTIFIER DOT IDENTIFIER
+
+    PROPERTY        shift and go to state 14
+    PRIMARY         shift and go to state 15
+    UNIQUE          shift and go to state 16
+    REFERENCE       shift and go to state 17
+
+    properties                     shift and go to state 13
+
+state 13
+
+    (6) column_def -> DASH IDENTIFIER LPAREN properties . RPAREN
+
+    RPAREN          shift and go to state 18
+
+
+state 14
+
+    (7) properties -> PROPERTY .
+    (8) properties -> PROPERTY . COMMA properties
+
+    RPAREN          reduce using rule 7 (properties -> PROPERTY .)
+    COMMA           shift and go to state 19
+
+
+state 15
+
+    (9) properties -> PRIMARY .
+
+    RPAREN          reduce using rule 9 (properties -> PRIMARY .)
+
+
+state 16
+
+    (10) properties -> UNIQUE .
+
+    RPAREN          reduce using rule 10 (properties -> UNIQUE .)
+
+
+state 17
+
+    (11) properties -> REFERENCE . IDENTIFIER DOT IDENTIFIER
+
+    IDENTIFIER      shift and go to state 20
+
+
+state 18
+
+    (6) column_def -> DASH IDENTIFIER LPAREN properties RPAREN .
+
+    DASH            reduce using rule 6 (column_def -> DASH IDENTIFIER LPAREN properties RPAREN .)
+    TABLE           reduce using rule 6 (column_def -> DASH IDENTIFIER LPAREN properties RPAREN .)
+    $end            reduce using rule 6 (column_def -> DASH IDENTIFIER LPAREN properties RPAREN .)
+
+
+state 19
+
+    (8) properties -> PROPERTY COMMA . properties
+    (7) properties -> . PROPERTY
+    (8) properties -> . PROPERTY COMMA properties
+    (9) properties -> . PRIMARY
+    (10) properties -> . UNIQUE
+    (11) properties -> . REFERENCE IDENTIFIER DOT IDENTIFIER
+
+    PROPERTY        shift and go to state 14
+    PRIMARY         shift and go to state 15
+    UNIQUE          shift and go to state 16
+    REFERENCE       shift and go to state 17
+
+    properties                     shift and go to state 21
+
+state 20
+
+    (11) properties -> REFERENCE IDENTIFIER . DOT IDENTIFIER
+
+    DOT             shift and go to state 22
+
+
+state 21
+
+    (8) properties -> PROPERTY COMMA properties .
+
+    RPAREN          reduce using rule 8 (properties -> PROPERTY COMMA properties .)
+
+
+state 22
+
+    (11) properties -> REFERENCE IDENTIFIER DOT . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 23
+
+
+state 23
+
+    (11) properties -> REFERENCE IDENTIFIER DOT IDENTIFIER .
+
+    RPAREN          reduce using rule 11 (properties -> REFERENCE IDENTIFIER DOT IDENTIFIER .)
+

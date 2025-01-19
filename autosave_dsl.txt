@@ -1,0 +1,8 @@
+table commandes:
+- id (entier, clé primaire, auto)
+- client_id (entier, requis, référence: clients.id)
+- produit_id (entier, requis, référence: produits.id)
+- quantité (entier, requis)
+- prix_total (entier, requis)
+- date_commande (date, par défaut: maintenant)
+- statut (texte, par défaut: 'en attente')
